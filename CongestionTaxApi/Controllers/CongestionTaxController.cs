@@ -1,12 +1,14 @@
-﻿using System;
-using CongestionTaxApi.Services;
+﻿using System.Net;
+using CongestionTaxApi.Factory;
+using CongestionTaxApi.Requests;
 using CongestionTaxApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CongestionTaxApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("congestion-tax")]
     public class CongestionTaxController : ControllerBase
     {
         private readonly ITaxCalculator _taxCalculator;
@@ -17,12 +19,13 @@ namespace CongestionTaxApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        [SwaggerResponse((int) HttpStatusCode.BadRequest, "returns bad request when request is not valid")]
+        [SwaggerResponse((int) HttpStatusCode.OK, "returns congestion tax with given dates and vehicle type")]
+        public IActionResult Get([FromQuery] TaxQueryRequest taxQueryRequest)
         {
-            Car car = new Car();
-            var date = DateTime.Now.AddYears(-9);
-            var dates = new [] { date };
-            var tax = _taxCalculator.GetTax(car, dates);
+            VehicleFactory vehicleFactory = new VehicleFactory();
+            var vehicle = vehicleFactory.ProduceVehicle(taxQueryRequest.VehicleType);
+            var tax = _taxCalculator.GetTax(vehicle, taxQueryRequest.Dates);
             return Ok(tax);
         }
     }

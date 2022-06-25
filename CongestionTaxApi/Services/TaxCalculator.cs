@@ -1,24 +1,29 @@
 using System;
+using System.Linq;
 using CongestionTaxApi.Enums;
 using CongestionTaxApi.Services.Interfaces;
 
 namespace CongestionTaxApi.Services
 {
+    /// <summary>
+    /// Tax calculator for vehicles
+    /// </summary>
     public class TaxCalculator : ITaxCalculator
     {
         public int GetTax(IVehicle vehicle, DateTime[] dates)
         {
             DateTime intervalStart = dates[0];
+            int tempFee = GetTollFee(intervalStart, vehicle);
+            
             int totalFee = 0;
+            
             foreach (DateTime date in dates)
             {
                 int nextFee = GetTollFee(date, vehicle);
-                int tempFee = GetTollFee(intervalStart, vehicle);
 
-                long diffInMillies = date.Millisecond - intervalStart.Millisecond;
-                long minutes = diffInMillies / 1000 / 60;
+                TimeSpan ts = date - intervalStart;
 
-                if (minutes <= 60)
+                if (ts.TotalMinutes <= 60)
                 {
                     if (totalFee > 0) totalFee -= tempFee;
                     if (nextFee >= tempFee) tempFee = nextFee;
@@ -38,30 +43,23 @@ namespace CongestionTaxApi.Services
         {
             if (vehicle == null) return false;
             String vehicleType = vehicle.GetVehicleType();
-            return vehicleType.Equals(TollFreeVehicles.Motorbike.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Foreign.ToString()) ||
-                   vehicleType.Equals(TollFreeVehicles.Military.ToString());
+            return vehicleType.Equals(Vehicles.Motorbike.ToString()) ||
+                   vehicleType.Equals(Vehicles.Tractor.ToString()) ||
+                   vehicleType.Equals(Vehicles.Emergency.ToString()) ||
+                   vehicleType.Equals(Vehicles.Diplomat.ToString()) ||
+                   vehicleType.Equals(Vehicles.Foreign.ToString()) ||
+                   vehicleType.Equals(Vehicles.Military.ToString());
         }
 
         public int GetTollFee(DateTime date, IVehicle vehicle)
         {
             if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
 
-            int hour = date.Hour;
-            int minute = date.Minute;
+            var result =
+                Constants.TaxRanges.FirstOrDefault(x => x.StartTime <= date.TimeOfDay && x.EndTime >= date.TimeOfDay);
 
-            if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-            if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-            if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-            if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-            if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;   //TODO: test
-            if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-            if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;  //TODO: test
-            if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-            if (hour == 18 && minute >= 0 && minute <= 29) return 8;
+            if (result != null) return result.Tax;
+
             return 0;
         }
 
