@@ -38,7 +38,7 @@ namespace CongestionTaxApi.Services
         {
             if (vehicle == null) return false;
             String vehicleType = vehicle.GetVehicleType();
-            return vehicleType.Equals(TollFreeVehicles.Motorcycle.ToString()) ||
+            return vehicleType.Equals(TollFreeVehicles.Motorbike.ToString()) ||
                    vehicleType.Equals(TollFreeVehicles.Tractor.ToString()) ||
                    vehicleType.Equals(TollFreeVehicles.Emergency.ToString()) ||
                    vehicleType.Equals(TollFreeVehicles.Diplomat.ToString()) ||
@@ -54,15 +54,15 @@ namespace CongestionTaxApi.Services
             int minute = date.Minute;
 
             if (hour == 6 && minute >= 0 && minute <= 29) return 8;
-            else if (hour == 6 && minute >= 30 && minute <= 59) return 13;
-            else if (hour == 7 && minute >= 0 && minute <= 59) return 18;
-            else if (hour == 8 && minute >= 0 && minute <= 29) return 13;
-            else if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;
-            else if (hour == 15 && minute >= 0 && minute <= 29) return 13;
-            else if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;
-            else if (hour == 17 && minute >= 0 && minute <= 59) return 13;
-            else if (hour == 18 && minute >= 0 && minute <= 29) return 8;
-            else return 0;
+            if (hour == 6 && minute >= 30 && minute <= 59) return 13;
+            if (hour == 7 && minute >= 0 && minute <= 59) return 18;
+            if (hour == 8 && minute >= 0 && minute <= 29) return 13;
+            if (hour >= 8 && hour <= 14 && minute >= 30 && minute <= 59) return 8;   //TODO: test
+            if (hour == 15 && minute >= 0 && minute <= 29) return 13;
+            if (hour == 15 && minute >= 0 || hour == 16 && minute <= 59) return 18;  //TODO: test
+            if (hour == 17 && minute >= 0 && minute <= 59) return 13;
+            if (hour == 18 && minute >= 0 && minute <= 29) return 8;
+            return 0;
         }
 
         private Boolean IsTollFreeDate(DateTime date)

@@ -2,7 +2,7 @@ namespace CongestionTaxApi.Enums
 {
     public enum TollFreeVehicles
     {
-        Motorcycle = 0,
+        Motorbike = 0,
         Tractor = 1,
         Emergency = 2,
         Diplomat = 3,

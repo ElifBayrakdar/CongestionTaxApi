@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CongestionTaxApi.Services;
+using CongestionTaxApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -12,16 +11,22 @@ namespace CongestionTaxApi.Controllers
     public class CongestionTaxController : ControllerBase
     {
         private readonly ILogger<CongestionTaxController> _logger;
+        private readonly ITaxCalculator _taxCalculator;
 
-        public CongestionTaxController(ILogger<CongestionTaxController> logger)
+        public CongestionTaxController(ILogger<CongestionTaxController> logger, ITaxCalculator taxCalculator)
         {
             _logger = logger;
+            _taxCalculator = taxCalculator;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Ok");
+            Car car = new Car();
+            var date = DateTime.Now.AddYears(-9);
+            var dates = new [] { date };
+            var tax = _taxCalculator.GetTax(car, dates);
+            return Ok(tax);
         }
     }
 }
