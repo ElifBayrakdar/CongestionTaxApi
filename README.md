@@ -9,6 +9,6 @@ This is an application for the calculation of tax fees for vehicles. Those vehic
         Car = 6
 
 Next release I will add those
-Repository of tax fees will be added
-Coverage will be increased
+> Repository of tax fees will be added
+> Coverage will be increased
 
