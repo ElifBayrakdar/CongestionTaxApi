@@ -51,7 +51,7 @@ namespace CongestionTaxApi.Services
                    vehicleType.Equals(Vehicles.Military.ToString());
         }
 
-        public int GetTollFee(DateTime date, IVehicle vehicle)
+        private int GetTollFee(DateTime date, IVehicle vehicle)
         {
             if (IsTollFreeDate(date) || IsTollFreeVehicle(vehicle)) return 0;
 
