@@ -7,6 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3F54DA66-0763-4FA9-B690-0AF432BC23FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1BD51D66-92BE-4A46-BD50-AF154E1F3852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CongestionTaxApi.UnitTest", "CongestionTaxApi.UnitTest\CongestionTaxApi.UnitTest.csproj", "{A662E82D-A65C-44E7-A87F-C70EACC929E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +23,13 @@ Global
 		{4CD60770-3F57-42DE-99CB-501AE958C953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD60770-3F57-42DE-99CB-501AE958C953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CD60770-3F57-42DE-99CB-501AE958C953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A662E82D-A65C-44E7-A87F-C70EACC929E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A662E82D-A65C-44E7-A87F-C70EACC929E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A662E82D-A65C-44E7-A87F-C70EACC929E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A662E82D-A65C-44E7-A87F-C70EACC929E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CD60770-3F57-42DE-99CB-501AE958C953} = {3F54DA66-0763-4FA9-B690-0AF432BC23FB}
+		{A662E82D-A65C-44E7-A87F-C70EACC929E3} = {1BD51D66-92BE-4A46-BD50-AF154E1F3852}
 	EndGlobalSection
 EndGlobal

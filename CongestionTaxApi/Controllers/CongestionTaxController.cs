@@ -2,7 +2,6 @@
 using CongestionTaxApi.Services;
 using CongestionTaxApi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CongestionTaxApi.Controllers
 {
@@ -10,12 +9,10 @@ namespace CongestionTaxApi.Controllers
     [Route("[controller]")]
     public class CongestionTaxController : ControllerBase
     {
-        private readonly ILogger<CongestionTaxController> _logger;
         private readonly ITaxCalculator _taxCalculator;
 
-        public CongestionTaxController(ILogger<CongestionTaxController> logger, ITaxCalculator taxCalculator)
+        public CongestionTaxController(ITaxCalculator taxCalculator)
         {
-            _logger = logger;
             _taxCalculator = taxCalculator;
         }
 
